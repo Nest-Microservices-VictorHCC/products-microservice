@@ -52,8 +52,10 @@ export class ProductsService extends PrismaClient implements OnModuleInit {
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
+
+    const { id: __, ...data } = updateProductDto; // Destructure to remove id from the data
     
-    if(!updateProductDto || Object.keys(updateProductDto).length === 0) {
+    if(!data || Object.keys(data).length === 0) {
       throw new BadRequestException('No data provided to update the product');
     }
 
@@ -61,7 +63,7 @@ export class ProductsService extends PrismaClient implements OnModuleInit {
     
     return this.product.update({
       where: { id },
-      data: updateProductDto
+      data
     });
   }
 
